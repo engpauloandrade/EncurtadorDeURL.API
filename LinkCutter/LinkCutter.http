@@ -1,0 +1,10 @@
+﻿@LinkCutter_HostAddress = http://localhost:24943
+
+POST {{LinkCutter_HostAddress}}/url
+Content-Type: application/json
+
+{
+  //UrlDTO
+}
+
+###
