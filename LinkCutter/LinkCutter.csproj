@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinkCutter.Application\LinkCutter.Application.csproj" />
+    <ProjectReference Include="..\LinkCutter.Domain\LinkCutter.Domain.csproj" />
   </ItemGroup>
 
 </Project>

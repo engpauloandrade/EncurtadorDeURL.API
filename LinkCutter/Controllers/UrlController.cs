@@ -1,5 +1,7 @@
 ﻿using LinkCutter.Application.DTOs;
 using LinkCutter.Application.Interfaces;
+using LinkCutter.Domain.Exceptions;
+using LinkCutter.Domain.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +30,7 @@ public class UrlController : ControllerBase
     public async Task<IActionResult> GetUrl([FromHeader][Required] string token, [Required] string rash)
     {
         var isValidToken = await _securityService.ValidateTokenAsync(token);
-        if (!isValidToken) return Unauthorized();
+        if (!isValidToken) throw new ErroTecnicoException("CODE001", "Token de acesso é inválido");
         var result = await _urlService.GetUrlAsync(rash);
         return Ok(result);
     }

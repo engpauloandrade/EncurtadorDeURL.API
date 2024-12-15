@@ -1,8 +1,7 @@
-using LinkCutter.Repository.Database;
-using LinkCutter.Application.Services;
-using Microsoft.OpenApi.Models;
-using LinkCutter.Application.Interfaces;
 using LinkCutter.Application.InjecaoDependencia;
+using LinkCutter.Domain.DependencyInjection;
+using LinkCutter.Repository.Database;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,7 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.AddErrorMiddleware();
 app.UseAuthorization();
+//app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors("AllowAnyOrigin");
 
