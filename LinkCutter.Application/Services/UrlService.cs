@@ -65,8 +65,8 @@ public class UrlService : IUrlService
             var urlModel = new UrlModel
             {
                 OriginalUrl = url,
-                RashCode =  rashCode,
-                CreatedAt = DateTime.Now
+                RashCode = rashCode,
+                CreatedAt = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
             };
 
             var urlsCollection = _dbContext.GetCollection<UrlModel>(_collectionName);
@@ -97,7 +97,12 @@ public class UrlService : IUrlService
         using (SHA256 sha256 = SHA256.Create())
         {
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(url));
-            return Convert.ToBase64String(bytes).Substring(0, 7);
+            string base64Url = Convert.ToBase64String(bytes)
+                                .Replace("+", "-") 
+                                .Replace("/", "_") 
+                                .TrimEnd('=');
+            return base64Url.Substring(0, 7);
         }
     }
+
 }

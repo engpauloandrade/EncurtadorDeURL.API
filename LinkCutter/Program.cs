@@ -1,7 +1,9 @@
-using LinkCutter.Application.Interfaces;
-using LinkCutter.Application.Services;
 using LinkCutter.Repository.Database;
+using LinkCutter.Application.Services;
 using Microsoft.OpenApi.Models;
+using LinkCutter.Application.Interfaces;
+using LinkCutter.Application.InjecaoDependencia;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +17,9 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API para encurtar links.",
         Contact = new OpenApiContact
         {
-            Name = "Paulo Andrade",
+            Name = "Link Cutter",
             Email = "teste@gmail.com",
-            Url = new Uri("https://github.com/engpauloandrade")
+            Url = new Uri("https://github.com")
         }
     });
 });
@@ -29,21 +31,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUrlService, UrlService>();
-builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddServices();
+builder.Services.AddSecurity();
 
 builder.Services.AddSingleton<DatabaseContext>();
 
-builder.Services.AddCors(options =>
+builder.Services.AddCors(o => o.AddPolicy("AllowAnyOrigin", builder =>
 {
-    options.AddPolicy("AllowAnyOrigin",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
 
 
 var app = builder.Build();
